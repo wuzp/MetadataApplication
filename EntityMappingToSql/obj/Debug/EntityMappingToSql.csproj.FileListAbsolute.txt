@@ -1,0 +1,5 @@
+D:\demo\EntityMappingToSql\EntityMappingToSql\bin\Debug\EntityMappingToSql.dll
+D:\demo\EntityMappingToSql\EntityMappingToSql\bin\Debug\EntityMappingToSql.pdb
+D:\demo\EntityMappingToSql\EntityMappingToSql\obj\Debug\EntityMappingToSql.csprojResolveAssemblyReference.cache
+D:\demo\EntityMappingToSql\EntityMappingToSql\obj\Debug\EntityMappingToSql.dll
+D:\demo\EntityMappingToSql\EntityMappingToSql\obj\Debug\EntityMappingToSql.pdb
