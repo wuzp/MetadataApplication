@@ -1,31 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EntityMappingToSql;
 
 namespace test
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            EntityMappingToSql.EntityRepository<User> repository = new EntityMappingToSql.EntityRepository<User>();
-            User u = new User();
+            var repository = new EntityRepository<User>();
+            var u = new User();
             Console.WriteLine(repository.Insert(u));
             Console.Read();
         }
-
-
     }
 
-    public class User:EntityBase
+    [Entity("User")]
+    public class User : EntityBase
     {
+        [Property(IsPrimarykey =true)]
         public int Id { get; set; }
-
         public string Name { get; set; }
-
         public int Age { get; set; }
     }
 }

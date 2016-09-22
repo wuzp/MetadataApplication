@@ -13,7 +13,7 @@ namespace EntityMappingToSql
     {
         private static readonly ConcurrentDictionary<RuntimeTypeHandle, EntityMetaData> EntityMetaDataDic = new ConcurrentDictionary<RuntimeTypeHandle, EntityMetaData>();
         private static readonly ConcurrentDictionary<RuntimeTypeHandle, string> InsertSqls = new ConcurrentDictionary<RuntimeTypeHandle, string>();
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>> TypeProperties = new ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>>();
+        private static readonly ConcurrentDictionary<RuntimeTypeHandle, List<PropertyMetaData>> PropertyMetaDataDic = new ConcurrentDictionary<RuntimeTypeHandle, List<PropertyMetaData>>();
         private string connstring = "";
         public string Insert<T>(T entity)
         {
@@ -27,7 +27,7 @@ namespace EntityMappingToSql
                 for (int i = 0, c = allProperties.Count; i < c; i++)
                 {
                     var property = allProperties.ElementAt(i);
-                    sbColumnList.Append(property.Name);
+                    sbColumnList.Append(property.ColumnName);
                     if (i < c - 1)
                         sbColumnList.Append(", ");
                 }
@@ -35,7 +35,7 @@ namespace EntityMappingToSql
                 for (int i = 0, c = allProperties.Count; i < c; i++)
                 {
                     var property = allProperties.ElementAt(i);
-                    sbParameterList.AppendFormat("@{0}", property.Name);
+                    sbParameterList.AppendFormat("@{0}", property.ColumnName);
                     if (i < c - 1)
                         sbParameterList.Append(", ");
                 }
@@ -92,16 +92,32 @@ namespace EntityMappingToSql
             return entityMetaData;
         }
 
-        private static List<PropertyInfo> TypePropertiesCache(Type type)
+        private static List<PropertyMetaData> TypePropertiesCache(Type type)
         {
-            IEnumerable<PropertyInfo> pis;
-            if (TypeProperties.TryGetValue(type.TypeHandle, out pis))
+            List<PropertyMetaData> pis;
+            if (PropertyMetaDataDic.TryGetValue(type.TypeHandle, out pis))
             {
-                return pis.ToList();
+                return pis;
             }
             var properties = type.GetProperties().Where(p => p.CanWrite && p.CanRead).ToArray();
-            TypeProperties[type.TypeHandle] = properties;
-            return properties.ToList();
+            pis = new List<PropertyMetaData>();
+            foreach (var prop in properties)
+            {
+                PropertyMetaData propertyMetaData = new PropertyMetaData();
+                propertyMetaData.EntityType = type;
+                propertyMetaData.PropertyName = prop.Name;
+                propertyMetaData.PropertyType = prop.PropertyType;
+                propertyMetaData.ColumnName = prop.Name;
+                var attribute = prop.GetCustomAttribute(typeof (PropertyAttribute)) as PropertyAttribute;
+                if (attribute != null)
+                {
+                    propertyMetaData.IsPrimaryKey = attribute.IsPrimarykey;
+                    propertyMetaData.IsMust = attribute.IsMust;
+                }
+                pis.Add(propertyMetaData);
+            }
+            PropertyMetaDataDic[type.TypeHandle] = pis;
+            return pis;
         }
     }
 }

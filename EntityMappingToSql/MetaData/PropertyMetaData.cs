@@ -28,6 +28,11 @@ namespace EntityMappingToSql.MetaData
         public string ColumnName { get; set; }
 
         /// <summary>
+        /// 列的类型 TODO:应该定义为枚举
+        /// </summary>
+        public Type ColumnType { get; set; }
+
+        /// <summary>
         ///     长度
         /// </summary>
         public string ColumnLength { get; set; }
@@ -35,6 +40,17 @@ namespace EntityMappingToSql.MetaData
         /// <summary>
         ///     是否必填
         /// </summary>
-        public string IsMust { get; set; }
+        public bool IsMust { get; set; }
+
+        /// <summary>
+        /// 是否是主键
+        /// </summary>
+        public bool IsPrimaryKey { get; set; }
+
+
+        /// <summary>
+        /// 主键是否自动生成
+        /// </summary>
+        public bool IsAutoIdentityKey { get; set; }
     }
 }
