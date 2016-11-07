@@ -1,8 +1,0 @@
-D:\demo\EntityMappingToSql\test\bin\Debug\test.exe.config
-D:\demo\EntityMappingToSql\test\bin\Debug\test.exe
-D:\demo\EntityMappingToSql\test\bin\Debug\test.pdb
-D:\demo\EntityMappingToSql\test\bin\Debug\EntityMappingToSql.dll
-D:\demo\EntityMappingToSql\test\bin\Debug\EntityMappingToSql.pdb
-D:\demo\EntityMappingToSql\test\obj\Debug\test.csprojResolveAssemblyReference.cache
-D:\demo\EntityMappingToSql\test\obj\Debug\test.exe
-D:\demo\EntityMappingToSql\test\obj\Debug\test.pdb

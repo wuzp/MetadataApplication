@@ -9,7 +9,10 @@ namespace test
         {
             var repository = new EntityRepository<User>();
             var u = new User();
+            Console.WriteLine("User实体新增");
             Console.WriteLine(repository.Insert(u));
+            Console.WriteLine("User实体查询");
+            Console.WriteLine(repository.GetById<User>(1));
             Console.Read();
         }
     }

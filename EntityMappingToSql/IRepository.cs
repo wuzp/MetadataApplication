@@ -14,6 +14,6 @@ namespace EntityMappingToSql
 
        string Delete<T>(T entity);
 
-       string GetById<T>(string id);
+       string GetById<T>(object id);
    }
 }

@@ -65,12 +65,38 @@ namespace EntityMappingToSql
 
         public string Delete<T>(T entity)
         {
-            throw new NotImplementedException();
+            Type type = typeof(T);
+            var allProperties = TypePropertiesCache(type);
+            var tableName = GetTableName(type);
+            string key;
+            var keyPproperty = allProperties.SingleOrDefault(p => p.IsPrimaryKey);
+            if (keyPproperty == null)
+            {
+                key = keyPproperty.ColumnName;
+            }
+            else
+            {
+                key = "Id";
+            }
+            return $"Delete from {tableName} where {key}=@Id";
         }
 
-        public string GetById<T>(string id)
+        public string GetById<T>(object id)
         {
-            throw new NotImplementedException();
+            Type type = typeof(T);
+            var allProperties = TypePropertiesCache(type);
+            var tableName = GetTableName(type);
+            string key;
+            var keyPproperty = allProperties.SingleOrDefault(p => p.IsPrimaryKey);
+            if (keyPproperty == null)
+            {
+                key = keyPproperty.ColumnName;
+            }
+            else
+            {
+                key = "Id";
+            }
+            return $"select  * from {tableName} where {key}=@Id";
         }
         private static EntityMetaData GetEntityMetaData(Type type)
         {
